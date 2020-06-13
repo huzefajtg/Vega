@@ -1,0 +1,49 @@
+<h1>Vehicles List</h1>
+
+<button class="btn btn-primary" [routerLink]="['/vehicles/new']">
+  Add New Vehicle
+</button>
+
+<div class="form-group well">
+  <label for="make">Make</label>
+    <select id="make" class="form-control" [(ngModel)]="query.makeId" (change)="onFilterChange()">
+      <option></option>
+      <option *ngFor="let m of makes" value="{{m.id}}">
+        {{m.name}}
+      </option>
+    </select>
+
+    <div>
+      <button class="btn btn-default" (click)="OnRest()" >Reset</button>
+    </div>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th (click)="callSorter(c.title)" *ngFor="let c of columns">
+        <div *ngIf="c.isSortable==true">
+          {{ c.title }}
+          
+        </div>
+        <div *ngIf="!c.isSortable">
+          {{ c.title }}
+        </div>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let item of vList.items">
+      <td>{{ item.id }}</td>
+      <td>{{ item.make.name }}</td>
+      <td>{{ item.model.name }}</td>
+      <td>{{ item.contact.name }}</td>
+
+      <td><a [routerLink]="['/vehicles/',item.id]">View</a></td> 
+    </tr>
+  </tbody>
+</table>
+<pagination [total-items]="vList.totalItems" [page-size]="query.pageSize" (page-changed)="onPageChanged($event)">
+
+</pagination>
